@@ -1,4 +1,4 @@
-import userModel, { User } from "../models/userModel.js";
+import User from "../models/userModel.js";
 import { getDataUri } from "../utils/features.js";
 import cloudinary from "cloudinary";
 export const registerController = async (req, res) => {
@@ -22,7 +22,7 @@ export const registerController = async (req, res) => {
       });
     }
     // check existing user
-    const existingUser = await userModel.findOne({ email });
+    const existingUser = await User.findOne({ email });
     //validation
     if (existingUser) {
       return res.status(500).send({
@@ -30,7 +30,7 @@ export const registerController = async (req, res) => {
         message: "Email is already taken",
       });
     }
-    const user = await userModel.create({
+    const user = await User.create({
       name,
       email,
       password,
@@ -65,7 +65,7 @@ export const loginController = async (req, res) => {
       });
     }
     // check user
-    const user = await userModel.findOne({ email });
+    const user = await User.findOne({ email });
     // user validation
     if (!user) {
       return res.status(404).send({
